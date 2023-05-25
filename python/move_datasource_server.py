@@ -240,7 +240,12 @@ def get_default_project_id(server, auth_token, site_id):
 
     # Look through all projects to find the 'default' one (EN and DE locales)
     for project in projects:
-        if project.get('name') == 'default' or project.get('name') == 'Default' or project.get('name') == 'standard' or project.get('name') == 'Standard':
+        if project.get('name') in [
+            'default',
+            'Default',
+            'standard',
+            'Standard',
+        ]:
             return project.get('id')
     print("\tProject named 'default' was not found in {0}".format(server))
 
