@@ -186,12 +186,13 @@ def get_workbooks(server, auth_token, user_id, site_id):
     # Find all workbook ids
     workbook_tags = server_response.findall('.//t:workbook', namespaces=xmlns)
 
-    # Tuples to store each workbook information:(workbook_id, workbook_name)
-    workbooks = [(workbook.get('id'), workbook.get('name')) for workbook in workbook_tags]
-    if len(workbooks) == 0:
-        error = "No workbooks found on this site"
-        raise LookupError(error)
-    return workbooks
+    if workbooks := [
+        (workbook.get('id'), workbook.get('name'))
+        for workbook in workbook_tags
+    ]:
+        return workbooks
+    else:
+        raise LookupError("No workbooks found on this site")
 
 
 def query_permission(server, auth_token, site_id, workbook_id, user_id):
